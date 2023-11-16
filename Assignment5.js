@@ -6,10 +6,11 @@ let images = [];  // preloader bonus
 // Function to fetch the label.json
 function fetchLabels() {
     fetch("https://gist.githubusercontent.com/ProfWendi/df54b0d51d29f18c948fe2713eaae470/raw/1de1c325ad688d23b7affdb8f7120a5c84ac989c/labels.json")
-    .then(response => response.json())                
+    .then(response => response.json())  // Extract JSON data from the response               
     .then(data => {       
-        prompts = data;  // prompt hold the data from the labels.json
-    }) // For debugging
+        prompts = data;  // put labels into a list of data
+    }) 
+    // For debugging
     .catch(error => {
         console.log(error);
     })
@@ -18,13 +19,14 @@ function fetchLabels() {
 // Function to fetch the planet and create buttons
 function fetchPlanetsAndCreateButtons() {
     fetch("https://gist.githubusercontent.com/ProfWendi/df54b0d51d29f18c948fe2713eaae470/raw/1de1c325ad688d23b7affdb8f7120a5c84ac989c/planets.json")
-    .then(response => response.json())
+    .then(response => response.json())  // Extract JSON data from the response
     .then(data => {
         planets = data;  // put planets into a list of data
 
+        // Use for loop to create a button, button textContent and button type. Then use addEvent Listener click and mouseover 
         for (let index = 0; index < planets.length; index++) {
             let currentPlanet = planets[index];
-            let nav = document.querySelector("nav");  // Get the nav in the html
+            let nav = document.querySelector("main section nav");  // Get the nav in the html
             let button = document.createElement("button");  // Create the button element
             
             let currentButton = currentPlanet.name;  // Declare currentButton equal to the name of the currentPlanet
@@ -43,7 +45,8 @@ function fetchPlanetsAndCreateButtons() {
             images.push(image);  // Add image element to array images
             
         }
-    }) // For debugging
+    }) 
+    // For debugging
     .catch(error => {
         console.log(error);
     })
@@ -84,25 +87,30 @@ let planetData = {
                     anchor.target = "planetInfo";  // Take the target equal planetInfo
                     anchor.textContent = planet.name;  // Take textContent for the anchor by using name from the array planet
                     span2.append(anchor);  // Append the anchor to the span
-                }   // Condition to display distance from sun (km)
+                }   
+                // Condition to display distance from sun (km)
                 else if (keyPair[1] == "Distance from Sun (km)") {
                     // Take the textContent for the span by using distance from the array planet.
                     // And change to number object to use toLocaleString() to get the number thousand
                     span2.textContent = Number(planet.distance).toLocaleString();  
-                }   // Condition to display the Mean Solar Day
+                }   
+                // Condition to display the Mean Solar Day
                 else if (keyPair[1] == "Mean Solar Day (Earth days)") {
                     // Take the textContent for the span by using day from the array planet
                     span2.textContent = planet.day;
-                }   // Condition to display Radius (mean,km)
+                }   
+                // Condition to display Radius (mean,km)
                 else if (keyPair[1] == "Radius (mean, km)") {
                     // Take the textContent for the span by using radius from the array planet
                     // Change to number object to use toLocaleString() to get the number thousand
                     span2.textContent = Number(planet.radius).toLocaleString();
-                }   // Condition to display Mean Surface Gravity
+                }   
+                // Condition to display Mean Surface Gravity
                 else if (keyPair[1] == "Mean Surface Gravity (cm/sec^2)") {
                     // Take the textContext for span by using the gravity from the array planet
                     span2.textContent = planet.gravity;
-                }   // Condition to display Number of Known Moons
+                }   
+                // Condition to display Number of Known Moons
                 else if (keyPair[1] == "Number of Known Moons") {
                     // Take the textContext for span by using the moon from the array planet
                     span2.textContent = planet.moons;
@@ -114,8 +122,9 @@ let planetData = {
             }
         }
         let lastDiv = document.createElement("div");  // Create the div element named lastDiv
-        let image;  // Declare the image
-        // Use for loop to hav all the img
+        let image;  // Declare image
+        // Use for loop to iterate through all images and check conditions
+        // If the images are duplicated, it will break from the loop
         for (let index = 0; index < images.length; index++) {
             let currentImage = images[index];
             // if the src of the currentImage include the planet.img
@@ -132,10 +141,12 @@ let planetData = {
     }
 }
 
-// Use function addEventListener to run the fetchLabels and fetch PlanetsAndCreateButtons
+// 
 document.addEventListener("DOMContentLoaded", () => { 
+    // Fetch labels from the fetch data.
     fetchLabels();
-    fetchPlanetsAndCreateButtons()
+    // Fetch planets and create buttons from the fetch data
+    fetchPlanetsAndCreateButtons();
 })
 
 
